@@ -2,6 +2,8 @@
 
 import { program } from "commander";
 
-const { description, version } = boxConfig;
-
-program.version(version).description(description);
+program
+  .name('gendiff')
+  .description('Compares two configuration files and shows a difference.')
+  .version('1.0.1');
+program.parse();
