@@ -19,10 +19,10 @@ program
   .description('Compares two configuration files and shows a difference.')
   .argument('<filepath1 filepath2>')
   .option('-f, --format <type>','output format')
-  .action(function (smth, env) {
-    const files = env.map(file => {
-      return getData(file)});
+  .action((smth, env) => {
+    const files = env.map((file) => getData(file));
     const [first, second] = files;
-    genDiff(first, second);
+    const result = genDiff(first, second);
+    process.stdout.write(result);
   });
 program.parse(process.argv);

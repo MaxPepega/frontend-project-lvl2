@@ -7,7 +7,7 @@ const genDiff = (first, second) => {
   const secondObj = JSON.parse(second);
   const secondKey = Object.keys(secondObj);
 
-  const commonObj = Object.assign({}, firstObj, secondObj);
+  const commonObj = {...firstObj, ...secondObj}};
   console.log(commonObj);
   const commonKeys = Object.keys(commonObj).sort();
   
@@ -33,9 +33,7 @@ const genDiff = (first, second) => {
   }, []);
   const diffString =  getDifference.map(field => field.join(' '));
   const res = `{\n${diffString.join('\n')}\n}`;
-  console.log(res);
+  return res;
 };
-
-
 
 export default genDiff;
