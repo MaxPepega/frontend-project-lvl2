@@ -31,7 +31,7 @@ const genDiff = (first, second) => {
       return [...acc, ['-', `${key}:`, firsValue]];
     }
   }, []);
-  const diffString =  getDifference.map(field => field.join(' '));
+  const diffString =  getDifference.map((field) => field.join(' '));
   const res = `{\n${diffString.join('\n')}\n}`;
   return res;
 };
