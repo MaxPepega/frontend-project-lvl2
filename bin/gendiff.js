@@ -1,38 +1,28 @@
 #!/usr/bin/env node
-import { commander } from 'commander';
+
+import { program } from "commander";
+import genDiff from "../src/index.js"
 import fs from 'fs';
 import path from 'path';
-import genDiff from '../src/index.js';
+import _ from 'lodash';
 
-
-function readFile(pathString) {
-  const compoosedPath = path.resolve(process.cwd(), pathString);
-  const fileUrl = new URL(`file://${compoosedPath}`);
-  let file;
-  try {
-    file = fs.readFileSync(fileUrl, 'utf8');
-
-  } catch(e) {
-    console.log('cant read file')
-    return '{}';
-  }
+const getData = (filepath) => {
+  const compPath = path.resolve(process.cwd(), filepath); //путь до файла
+  const fileUrl = new URL(`file://${compPath}`);
+  const file = fs.readFileSync(fileUrl, 'utf-8');
   return file;
-}
+}; 
 
-const program = new commander.Command();
-program.version('0.0.1', '-v, --vers', 'output the current version')
-.description('Usage: gendiff [options]')
-.description('Compares two configuration files and shows a difference.')
-.option('-f, --format [type]', 'output format')
-.action(function (smth, env) {
-
-  const files = env.map(file => {
-    return readFile(file);
+program
+  .version('1.0.1')
+  .name('gendiff')
+  .description('Compares two configuration files and shows a difference.')
+  .argument('<filepath1 filepath2>')
+  .option('-f, --format <type>','output format')
+  .action(function (smth, env) {
+    const files = env.map(file => {
+      return getData(file)});
+    const [first, second] = files;
+    genDiff(first, second);
   });
-
-  const [first, second] = files;
-  genDiff(first, second);
-
-});
-
 program.parse(process.argv);
