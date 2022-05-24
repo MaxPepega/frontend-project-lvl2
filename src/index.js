@@ -19,7 +19,7 @@ const genDiff = (first, second) => {
     const secondHas = secondKey.includes(key);
 
     if (firstHas && secondHas && firsValue === secondValue) {
-      return [...acc, ['', `${key}:`, firsValue]]
+      return [...acc, ['', `${key}:`, firsValue]];
     }
     if (firstHas && secondHas && firsValue !== secondValue) {
       return [...acc, ['-', `${key}:`, firsValue], ['+', `${key}:`, secondValue]];
@@ -30,6 +30,7 @@ const genDiff = (first, second) => {
     if (firstHas && !secondHas) {
       return [...acc, ['-', `${key}:`, firsValue]];
     }
+    return acc;
   }, []);
   const diffString =  getDifference.map((field) => field.join(' '));
   const res = `{\n${diffString.join('\n')}\n}`;
