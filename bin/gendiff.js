@@ -1,28 +1,15 @@
 #!/usr/bin/env node
 
-import { program } from "commander";
-import genDiff from "../src/index.js"
-import fs from 'fs';
-import path from 'path';
-import _ from 'lodash';
+import { Command } from "commander";
+import genDiff from '../src/genDiff.js';
 
-const getData = (filepath) => {
-  const compPath = path.resolve(process.cwd(), filepath); //путь до файла
-  const fileUrl = new URL(`file://${compPath}`);
-  const file = fs.readFileSync(fileUrl, 'utf-8');
-  return file;
-}; 
-
+const program = new Command();
 program
-  .version('1.0.1')
-  .name('gendiff')
-  .description('Compares two configuration files and shows a difference.')
-  .argument('<filepath1 filepath2>')
-  .option('-f, --format <type>','output format')
-  .action((smth, env) => {
-    const files = env.map((file) => getData(file));
-    const [first, second] = files;
-    const result = genDiff(first, second);
-    process.stdout.write(result);
-  });
-program.parse(process.argv);
+  .description('Comapres two configuration files and shows difference.')
+  .version('0.0.1', ' -v, --version', 'output the current version')
+  .option('-f, --format <type>', 'output format', 'stylish')
+  .argument('<filepath1>')
+  .argument('<filepath2>')
+  .action((filepath1, filepath2) => genDiff(filepath1, filepath2));
+
+program.parse();
